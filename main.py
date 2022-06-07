@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi_utils.tasks import repeat_every
 
 from sqlalchemy.sql.expression import false
 from sqlalchemy.sql.sqltypes import String
@@ -85,6 +86,11 @@ app.add_middleware(
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
+@app.on_event("startup")
+@repeat_every(seconds=60 * 15)  # 15 min
+def post_seldued_posts():
+    db = SessionLocal()
+    server.auto_post_sheldued_post(db)
 
 @app.get("/login", tags=["login"])
 def get_link_to_auth():

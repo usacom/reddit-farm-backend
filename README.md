@@ -1,3 +1,9 @@
+# Create local venv
+
+```
+python3.7 -m venv .
+```
+
 # Use local "virtual env"
 
 use:
@@ -22,6 +28,25 @@ pip3.7 freeze > requirements.txt
 
 ```
 pip3.7 install -r ./requirements.txt
+```
+
+# Create `.config`
+
+Create `.config/db/config.cfg`:
+```
+[postgres]
+user=postgres
+password=pass
+host=localhost
+db=server-db
+```
+
+Create `.config/reddit/config.cfg`:
+```
+[reddit]
+client_id = your-client-id
+client_secret = your-client-secret-code
+user_agent = site-farm v1.0 by u/clara_usa_t
 ```
 
 # Run dev api server

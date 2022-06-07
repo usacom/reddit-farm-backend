@@ -308,6 +308,24 @@ class Server:
             print("Error posting submission -- "+str(e))
             return e
 
+    def auto_post_sheldued_post(self, db):
+        print('auto_post_sheldued_post')
+        try:
+            scheduled = crud.get_scheduled_posts(db)
+            print('posts_scheduled', scheduled)
+            for post in scheduled: 
+                print('post', post)
+                print('post.scheduled_time', post.scheduled_time)
+                print('post.owner', post.owner)
+                print('post.owner.id', post.owner.id)
+
+                if post.owner is None:
+                    return
+                if post.status != 'PUBLISHED' or post.status != 'CANCELED' or post.status != 'SAVED':
+                    self.create_user_post(db, post.owner, post)
+        except Exception as e:
+            print('except', e)
+        
 
 if __name__ == "__main__":
     server = Server()

@@ -205,6 +205,11 @@ def get_posts(db: Session, user: schemas.User, filter: enums.PostLoadFilter, ski
     else:
         return db.query(models.Post).filter(models.Post.owner_id == user.id).offset(skip).limit(limit).all()
 
+def get_scheduled_posts(db: Session, skip: int = 0, limit: int = 100):
+    print('get_scheduled_posts')
+    return db.query(models.Post).filter(models.Post.status == enums.PostLoadFilter.RESCHEDULED or models.Post.status == enums.PostLoadFilter.SCHEDULED).filter(models.Post.scheduled_time <= func.now()).offset(skip).limit(limit).all()
+    
+
 
 def get_post_by_id(db: Session, id: int):
     return db.query(models.Post).filter(models.Post.id == id).first()

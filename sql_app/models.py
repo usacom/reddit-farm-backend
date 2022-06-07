@@ -63,7 +63,7 @@ class Post(Base):
     title = Column(String, nullable=False,)
     type = Column(String, nullable=False,)
     content = Column(JSON)
-    scheduled_time = Column(String)
+    scheduled_time = Column(TIMESTAMP, nullable=True)
     url = Column(String)
     status = Column(Enum(PostStatus))
     nsfw = Column(Boolean)
